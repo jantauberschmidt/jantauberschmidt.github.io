@@ -6,4 +6,4 @@ My research is mainly about machine learning for scientific and physical systems
 
 I received my M.Sc. in Mathematics from RPTU Kaiserslautern in 2024, specializing in systems and control.
 
-Website: jantauberschmidt.github.io
+Website: https://jantauberschmidt.github.io
