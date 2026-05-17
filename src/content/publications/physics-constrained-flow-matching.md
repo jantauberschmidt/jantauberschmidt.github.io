@@ -14,11 +14,12 @@ links:
   code: "https://github.com/jantauberschmidt/PCFT"
   dfki: "https://www.dfki.de/web/forschung/projekte-publikationen/publikation/16997"
 bibtex: |
-  @inproceedings{tauberschmidt2026physics,
-    title     = {Physics-Constrained Fine-Tuning of Flow-Matching Models for Generation and Inverse Problems},
-    author    = {Tauberschmidt, Jan and Fellenz, Sophie and Vollmer, Sebastian J. and Duncan, Andrew B.},
-    booktitle = {International Conference on Learning Representations},
-    year      = {2026}
+  @inproceedings{tauberschmidt2026physicsconstrained,
+    title={Physics-Constrained Fine-Tuning of Flow-Matching Models for Generation and Inverse Problems},
+    author={Jan Tauberschmidt and Sophie Fellenz and Sebastian Josef Vollmer and Andrew B. Duncan},
+    booktitle={The Fourteenth International Conference on Learning Representations},
+    year={2026},
+    url={https://openreview.net/forum?id=khBHJz2wcV}
   }
 ---
 
