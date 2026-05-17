@@ -1,0 +1,140 @@
+---
+interface Props {
+  title: string;
+  authors: string[];
+  venue: string;
+  description?: string;
+  links?: Record<string, string>;
+  bibtex?: string;
+}
+
+const { title, authors, venue, description, links = {}, bibtex } = Astro.props;
+const linkLabels: Record<string, string> = {
+  openreview: "OpenReview",
+  arxiv: "arXiv",
+  code: "Code",
+  dfki: "DFKI",
+  scholar: "Scholar",
+  doi: "DOI",
+  poster: "Poster",
+};
+
+const isExternal = (href: string) => href.startsWith("http");
+const normalizedBibtex = bibtex
+  ? (() => {
+      const lines = bibtex.replace(/\t/g, "  ").split("\n");
+      const contentLines = lines.filter((line) => line.trim().length > 0);
+      const indent = contentLines.reduce((min, line) => {
+        const match = line.match(/^(\s*)/);
+        const current = match ? match[1].length : 0;
+        return Math.min(min, current);
+      }, Number.POSITIVE_INFINITY);
+      return lines.map((line) => line.slice(Number.isFinite(indent) ? indent : 0)).join("\n").trim();
+    })()
+  : undefined;
+---
+
+<article class="publication-card">
+  <p class="venue">{venue}</p>
+  <h3>{title}</h3>
+  <p class="authors">{authors.join(", ")}</p>
+  {description && <p>{description}</p>}
+  <div class="card-links">
+    {Object.entries(links).map(([key, href]) => (
+      <a class="card-link" href={href} target={isExternal(href) ? "_blank" : undefined} rel={isExternal(href) ? "noreferrer" : undefined}>
+        {linkLabels[key] ?? key}
+      </a>
+    ))}
+    {normalizedBibtex && (
+      <details class="bibtex-toggle">
+        <summary class="card-link">BibTeX</summary>
+        <pre class="bibtex-panel"><code>{normalizedBibtex}</code></pre>
+      </details>
+    )}
+  </div>
+</article>
+
+<style>
+  .publication-card {
+    padding: 1.15rem;
+    border: 1px solid rgb(49 95 157 / 0.22);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--surface), var(--accent-soft));
+  }
+
+  .venue {
+    margin-bottom: 0.45rem;
+    color: var(--accent-2);
+    font-size: 0.78rem;
+    font-weight: 760;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .authors {
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+
+  .card-links {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.9rem;
+    margin-top: 0.8rem;
+    align-items: center;
+  }
+
+  .card-link {
+    color: var(--accent);
+    font-size: 0.88rem;
+    font-weight: 640;
+    text-decoration: none;
+    transition: color 160ms ease;
+  }
+
+  .card-link:hover {
+    color: var(--accent-2);
+  }
+
+  .bibtex-toggle {
+    display: inline-block;
+    position: relative;
+    width: auto;
+    vertical-align: middle;
+  }
+
+  .bibtex-toggle[open] {
+    display: block;
+    width: 100%;
+  }
+
+  .bibtex-toggle summary {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    line-height: 1.2;
+    list-style: none;
+  }
+
+  .bibtex-toggle summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .bibtex-panel {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    margin: 0.65rem 0 0;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #111715;
+    color: #e6efeb;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    box-sizing: border-box;
+  }
+</style>

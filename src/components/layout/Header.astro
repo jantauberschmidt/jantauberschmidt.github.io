@@ -1,0 +1,96 @@
+---
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/research/", label: "Research" },
+  { href: "/publications/", label: "Publications" },
+  { href: "/cv/", label: "CV" },
+];
+
+const path = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="site-shell header-inner">
+
+    <a class="brand" href="/">
+      <img class="brand-avatar" src="/images/PortraitJanTauberschmidt.JPG" alt="" aria-hidden="true" />
+      <span>Jan Tauberschmidt</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+    border-bottom: 1px solid rgb(226 229 226 / 0.86);
+    background: rgb(251 251 248 / 0.9);
+    backdrop-filter: blur(14px);
+  }
+
+  .header-inner {
+    display: flex;
+    min-height: 4.2rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--text);
+    font-size: 0.98rem;
+    font-weight: 720;
+    text-decoration: none;
+  }
+
+  .brand-avatar {
+    width: 2.5em;
+    height: 2.5em;
+    flex: 0 0 auto;
+    border-radius: 999px;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.65rem, 2vw, 1.25rem);
+  }
+
+  nav a {
+    color: var(--muted);
+    font-size: 0.91rem;
+    font-weight: 560;
+    text-decoration: none;
+  }
+
+  nav a[aria-current="page"],
+  nav a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 680px) {
+    .header-inner {
+      min-height: auto;
+      align-items: flex-start;
+      flex-direction: column;
+      padding-block: 0.85rem;
+    }
+
+    nav {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 0.1rem;
+    }
+  }
+</style>

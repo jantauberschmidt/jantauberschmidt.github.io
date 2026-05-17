@@ -1,0 +1,276 @@
+---
+import BaseLayout from "../components/layout/BaseLayout.astro";
+import DenoiseHeading from "../components/motion/DenoiseHeading";
+
+const sections = [
+  { id: "overview", label: "Overview" },
+  { id: "generative-models", label: "Generative Models" },
+  { id: "domain-informed-ai", label: "Domain-Informed AI" },
+  { id: "control", label: "Control" },
+  { id: "contact", label: "Collaboration/ Supervision" },
+];
+---
+
+<BaseLayout title="Research" sections={sections}>
+  <section class="page-section research-overview" id="overview">
+    <DenoiseHeading text="Research" as="h1" client:visible />
+    <p class="section-eyebrow">Research vision</p>
+    <p class="lead">
+      My research lies at the intersection of generative modeling, scientific machine learning, and control.
+      I am interested in models that learn from data while respecting structure known a priori, such as physical laws or geometric constraints.
+      The goal is to bridge data-driven learning and first-principles modeling:
+      expressive enough to represent uncertainty and complex dynamics, but structured enough to remain meaningful in scientific and physical contexts.
+    </p>
+    <p class="research-thesis">
+      Learning flexible models for scientific systems while preserving the structure that makes them meaningful.
+    </p>
+
+    <p class="section-eyebrow">Main themes</p>
+    <div class="theme-grid" aria-label="Research themes">
+      <a class="theme-link-card" href="#generative-models">
+        <h2>Generative Modeling</h2>
+        <p>Flow matching or diffusion models for scientific settings.</p>
+      </a>
+      <a class="theme-link-card" href="#domain-informed-ai">
+        <h2>Domain-Informed AI</h2>
+        <p>Physical laws, constraints, structure, prior knowledge.</p>
+      </a>
+      <a class="theme-link-card" href="#control">
+        <h2>Control</h2>
+        <p>Dynamics, feedback, reinforcement learning, decision-making.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="page-section research-theme" id="generative-models">
+    <div class="theme-card">
+      <p class="section-eyebrow theme-number">Theme 01</p>
+      <DenoiseHeading text="Generative Modeling for Scientific Data" client:visible />
+      <p>
+        Generative models are useful in scientific problems because they can represent uncertainty over structured objects: fields, trajectories, PDE solutions, and other states constrained by underlying mechanisms. I am particularly interested in flow matching or diffusion models in this context.
+      </p>
+      <p>
+        In many applications, the goal is not generation for its own sake, but inference under incomplete information. A learned distribution can encode which states are plausible and can then be combined with observations, constraints, or objectives to solve inverse problems, guide optimization, or quantify uncertainty.
+      </p>
+      <div class="keyword-row" aria-label="Key ideas for generative modeling">
+        <span class="keyword-pill">Flow matching</span>
+        <span class="keyword-pill">Diffusion models</span>
+        <span class="keyword-pill">Generative priors</span>
+        <span class="keyword-pill">Uncertainty</span>
+        <span class="keyword-pill">Inverse problems</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section research-theme" id="domain-informed-ai">
+    <div class="theme-card">
+      <p class="section-eyebrow theme-number">Theme 02</p>
+      <DenoiseHeading text="Domain-Informed and Physics-Informed AI" client:visible />
+        <p>
+          Scientific learning problems usually come with structure that should not be ignored. I am interested in methods that incorporate such prior knowledge into machine learning models, including physical laws, symmetries, boundary conditions, constraints, expert knowledge, or qualitative information about admissible solutions.
+        </p>
+        <p>
+          This is the role in which I view physics-informed AI: not as a single technique, but as part of a broader question of how domain knowledge should shape learning. The challenge is to keep models flexible and data-adaptive while making their behavior consistent with the structure of the problem, especially when data are limited, simulations are imperfect, or extrapolation matters.
+        </p>
+      <div class="keyword-row" aria-label="Key ideas for domain-informed AI">
+        <span class="keyword-pill">Physical constraints</span>
+        <span class="keyword-pill">Prior knowledge</span>
+        <span class="keyword-pill">Hybrid modeling</span>
+        <span class="keyword-pill">Residuals</span>
+        <span class="keyword-pill">Structure</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section research-theme" id="control">
+    <div class="theme-card">
+      <p class="section-eyebrow theme-number">Theme 03</p>
+      <DenoiseHeading text="Control and Decision-Making in Physical Systems" client:visible />
+        <p>
+          Control problems make the consequences of learning explicit: predictions become actions, actions change the state, and errors can accumulate through feedback. This makes physical control a natural setting for studying how machine learning interacts with dynamics, constraints, uncertainty, and optimization objectives.
+        </p>
+        <p>
+          My Master’s thesis at Porsche Motorsport explored this perspective through reinforcement learning for race driver modeling. I remain interested in control both as an application area and as a conceptual lens for learned models that should not only describe data, but also support decisions in evolving systems.
+        </p>
+      <div class="keyword-row" aria-label="Key ideas for control">
+        <span class="keyword-pill">Reinforcement learning</span>
+        <span class="keyword-pill">Feedback systems</span>
+        <span class="keyword-pill">Dynamics</span>
+        <span class="keyword-pill">Closed-loop behavior</span>
+        <span class="keyword-pill">Optimization</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section research-contact" id="contact">
+    <DenoiseHeading text="Contact" client:visible />
+    <div class="contact-grid">
+      <article class="contact-card" id="collaboration">
+        <p class="section-eyebrow">Collaboration</p>
+        <p>
+          If you are working on related topics and think there might be an interesting connection, I would be very happy to hear from you. Feel free to reach out by email for potential collaborations, discussions, or simply to exchange ideas.
+        </p>
+        <div class="button-row">
+          <a class="button" href="mailto:jan.tauberschmidt@dfki.de?subject=Let%27s%20Collaborate!">Let's collaborate!</a>
+        </div>
+      </article>
+
+      <article class="contact-card" id="supervision">
+        <p class="section-eyebrow">Supervision</p>
+        <p>
+          I am also open to supervising motivated students for thesis projects. If you are interested in working with
+          me, please send me an email and briefly describe what you are excited about in particular, what background you
+          bring, and which kind of problem you would like to work on. You do not need to have a fully developed project
+          proposal, but it is helpful if you already have a concrete direction or research question that genuinely
+          interests you.
+        </p>
+        <div class="button-row">
+          <a class="button" href="mailto:jan.tauberschmidt@dfki.de?subject=Thesis%20Supervision">Register interest for thesis</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-section {
+    padding: clamp(1.35rem, 3.8vw, 2.45rem) 0;
+  }
+
+  .page-section:first-child {
+    padding-top: clamp(1.7rem, 4.2vw, 2.9rem);
+  }
+
+  .page-section p {
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  .theme-card,
+  .contact-card {
+    border: 1px solid color-mix(in srgb, var(--accent) 12%, var(--border));
+    border-radius: 1.1rem;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, white), rgba(255, 255, 255, 0.98));
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .research-overview {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .research-overview .section-eyebrow,
+  .theme-grid .section-eyebrow {
+    margin-bottom: 0.35rem;
+  }
+
+  .research-thesis {
+    margin-top: 0.2rem;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.65;
+  }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .theme-link-card {
+    display: block;
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, var(--border));
+    border-radius: 1rem;
+    padding: 1rem 1.05rem;
+    background: var(--surface);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 160ms ease,
+      transform 160ms ease,
+      background 160ms ease;
+  }
+
+  .theme-link-card:hover,
+  .theme-link-card:focus-visible {
+    border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+    background: color-mix(in srgb, var(--accent) 3%, white);
+    transform: translateY(-1px);
+  }
+
+  .theme-link-card:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    outline-offset: 3px;
+  }
+
+  .theme-link-card h2 {
+    margin-bottom: 0.35rem;
+    font-size: 1.02rem;
+  }
+
+  .theme-link-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  .research-theme .theme-card :global(h2) {
+    margin-bottom: 0.9rem;
+  }
+
+  .theme-number {
+    margin-bottom: 0.8rem;
+  }
+
+  .keyword-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1.25rem;
+  }
+
+  .keyword-pill {
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, var(--border));
+    border-radius: 999px;
+    padding: 0.32rem 0.72rem;
+    background: rgba(255, 255, 255, 0.88);
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .research-contact {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .contact-card {
+    display: grid;
+    align-content: start;
+  }
+
+  .contact-card .section-eyebrow {
+    margin-bottom: 0.7rem;
+  }
+
+  .contact-card .button-row {
+    margin-top: 1.1rem;
+  }
+
+  @media (max-width: 800px) {
+    .theme-grid,
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

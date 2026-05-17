@@ -1,0 +1,117 @@
+---
+import { Icon } from "astro-icon/components";
+
+type LinkItem = {
+  label: string;
+  href: string;
+  icon: string;
+  brand?: boolean;
+};
+
+const links: LinkItem[] = [
+  {
+    label: "Email",
+    href: "mailto:jan.tauberschmidt@dfki.de",
+    icon: "lucide:mail",
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/jantauberschmidt",
+    icon: "simple-icons:github",
+    brand: true,
+  },
+  {
+    label: "Google Scholar",
+    href: "https://scholar.google.com/citations?user=NZKan_8AAAAJ&hl=de&oi=ao",
+    icon: "simple-icons:googlescholar",
+    brand: true,
+  },
+  {
+    label: "arXiv",
+    href: "https://arxiv.org/search/?query=Jan+Tauberschmidt&searchtype=author",
+    icon: "simple-icons:arxiv",
+    brand: true,
+  },
+  {
+    label: "OpenReview",
+    href: "https://openreview.net/profile?id=~Jan_Tauberschmidt1",
+    icon: "lucide:file-text",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/search/results/all/?keywords=Jan%20Tauberschmidt",
+    icon: "simple-icons:linkedin",
+    brand: true,
+  },
+];
+---
+
+<nav class="academic-links" aria-label="Academic and social links">
+  {links.map((link) => (
+    <a
+      class:list={["academic-link", { "academic-link--brand": link.brand }]}
+      href={link.href}
+      aria-label={link.label}
+      target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+      rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+    >
+      <Icon name={link.icon} class="academic-link__icon" aria-hidden="true" />
+      <span class="academic-link__label">{link.label}</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .academic-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem 0.875rem;
+    align-items: center;
+  }
+
+  .academic-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-muted, #5f6368);
+    font-size: 0.95rem;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .academic-link:hover,
+  .academic-link:focus-visible {
+    color: var(--color-accent, #315f9d);
+    transform: translateY(-1px);
+  }
+
+  .academic-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  .academic-link__icon {
+    width: 1.05em;
+    height: 1.05em;
+    flex: 0 0 auto;
+    color: var(--color-muted, #5f6368);
+  }
+
+  .academic-link__label {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .academic-links {
+      gap: 0.55rem 0.75rem;
+    }
+
+    .academic-link {
+      font-size: 0.9rem;
+    }
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../components/layout/BaseLayout.astro";
+import PublicationCard from "../components/academic/PublicationCard.astro";
+import DenoiseHeading from "../components/motion/DenoiseHeading";
+import SettlingCard from "../components/motion/SettlingCard";
+import { getCollection } from "astro:content";
+
+const publications = (await getCollection("publications")).sort((a, b) => {
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  return a.data.title.localeCompare(b.data.title);
+});
+const groupedPublications = publications.reduce(
+  (groups, paper) => {
+    const key = String(paper.data.year);
+    const existing = groups.find((group) => group.year === key);
+    if (existing) {
+      existing.items.push(paper);
+    } else {
+      groups.push({ year: key, items: [paper] });
+    }
+    return groups;
+  },
+  [] as Array<{ year: string; items: typeof publications }>,
+);
+const sections = groupedPublications.map((group) => ({ id: `year-${group.year}`, label: group.year }));
+---
+
+<BaseLayout title="Publications" sections={sections}>
+  <section class="page-section publication-intro">
+    <DenoiseHeading text="Publications" as="h1" client:visible />
+    <p class="lead">This list contains publications and preprints.</p>
+  </section>
+  {groupedPublications.map((group, groupIndex) => (
+    <section class="page-section publication-year" id={`year-${group.year}`}>
+      <h2>{group.year}</h2>
+      <div class="grid">
+        {group.items.map((paper, paperIndex) => (
+          <SettlingCard index={groupIndex * 10 + paperIndex} client:visible>
+            <PublicationCard
+              venue={paper.data.venue_short && paper.data.venue_short !== paper.data.venue ? `${paper.data.venue_short} · ${paper.data.venue}` : paper.data.venue}
+              title={paper.data.title}
+              authors={paper.data.authors}
+              description={paper.body.trim()}
+              links={paper.data.links}
+              bibtex={paper.data.bibtex}
+            />
+          </SettlingCard>
+        ))}
+      </div>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  .publication-intro {
+    display: grid;
+    gap: 0.8rem;
+    padding-bottom: 0.4rem;
+  }
+
+  .publication-year {
+    display: grid;
+    gap: 0.45rem;
+    padding-top: 1.4rem;
+  }
+
+  .publication-year h2 {
+    color: var(--accent-2);
+    font-size: 1.05rem;
+    font-weight: 760;
+    letter-spacing: 0.05em;
+  }
+</style>

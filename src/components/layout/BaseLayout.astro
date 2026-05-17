@@ -1,0 +1,39 @@
+---
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import Seo from "./Seo.astro";
+import FlowSidebar from "../motion/FlowSidebar";
+import "../../styles/global.css";
+
+interface Section {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  sections?: Section[];
+}
+
+const { title, description, sections = [] } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <Seo title={title} description={description} />
+  </head>
+  <body>
+    <Header />
+    <main class="site-shell page-with-sidebar">
+      <div class="content-column">
+        <slot />
+      </div>
+      {sections.length > 0 && <FlowSidebar sections={sections} client:load />}
+    </main>
+    <Footer />
+  </body>
+</html>

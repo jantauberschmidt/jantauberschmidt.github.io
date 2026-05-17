@@ -1,0 +1,20 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Jan Tauberschmidt",
+  description = "Personal academic website of Jan Tauberschmidt, PhD researcher in scientific machine learning, generative modeling, and physics-informed AI.",
+} = Astro.props;
+
+const pageTitle = title === "Jan Tauberschmidt" ? title : `${title} | Jan Tauberschmidt`;
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />

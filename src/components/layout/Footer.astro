@@ -1,0 +1,36 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-shell footer-inner">
+    <p>© {year} Jan Tauberschmidt</p>
+    <p>Built with Astro · Hosted on GitHub Pages</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: 2.5rem 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.35rem;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      flex-direction: column;
+    }
+  }
+</style>
