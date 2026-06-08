@@ -27,8 +27,14 @@ export default function FlowSidebar({ sections }: Props) {
   const [active, setActive] = useState(sections[0]?.id ?? "");
   const [progress, setProgress] = useState(0);
   const [reduced, setReduced] = useState(false);
+  const svgRef = useRef<SVGSVGElement>(null);
   const activePathRef = useRef<SVGPathElement>(null);
   const [particlePoint, setParticlePoint] = useState<{ x: number; y: number } | null>(null);
+  const [xRadiusScale, setXRadiusScale] = useState(1);
+  const reducedRef = useRef(false);
+  const targetProgressRef = useRef(0);
+  const displayedProgressRef = useRef(0);
+  const progressFrameRef = useRef(0);
   const curveParams = useMemo(() => {
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
     return {
@@ -136,9 +142,42 @@ export default function FlowSidebar({ sections }: Props) {
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduced(media.matches);
-    const onMedia = () => setReduced(media.matches);
+    reducedRef.current = media.matches;
+    const onMedia = () => {
+      reducedRef.current = media.matches;
+      setReduced(media.matches);
+    };
     media.addEventListener("change", onMedia);
     let frame = 0;
+
+    const setProgressTarget = (nextProgress: number) => {
+      const next = clamp(nextProgress);
+      targetProgressRef.current = next;
+
+      if (reducedRef.current) {
+        displayedProgressRef.current = next;
+        setProgress(next);
+        return;
+      }
+
+      if (progressFrameRef.current) return;
+
+      const tick = () => {
+        const delta = targetProgressRef.current - displayedProgressRef.current;
+        if (Math.abs(delta) < 0.0015) {
+          displayedProgressRef.current = targetProgressRef.current;
+          progressFrameRef.current = 0;
+          setProgress(displayedProgressRef.current);
+          return;
+        }
+
+        displayedProgressRef.current += delta * 0.22;
+        setProgress(displayedProgressRef.current);
+        progressFrameRef.current = requestAnimationFrame(tick);
+      };
+
+      progressFrameRef.current = requestAnimationFrame(tick);
+    };
 
     const update = () => {
       cancelAnimationFrame(frame);
@@ -159,7 +198,7 @@ export default function FlowSidebar({ sections }: Props) {
 
         if (targets.length === 0) {
           setActive(sections[0]?.id ?? "");
-          setProgress(0);
+          setProgressTarget(0);
           return;
         }
 
@@ -180,16 +219,16 @@ export default function FlowSidebar({ sections }: Props) {
         setActive(activeId);
 
         if (targets.length === 1) {
-          setProgress(0);
+          setProgressTarget(0);
           return;
         }
 
         if (currentScroll <= targets[0].scrollY) {
-          setProgress(0);
+          setProgressTarget(0);
           return;
         }
         if (currentScroll >= targets[targets.length - 1].scrollY) {
-          setProgress(1);
+          setProgressTarget(1);
           return;
         }
 
@@ -207,7 +246,7 @@ export default function FlowSidebar({ sections }: Props) {
         const segmentEnd = targets[segmentIndex + 1];
         const local = clamp((currentScroll - segmentStart.scrollY) / Math.max(1, segmentEnd.scrollY - segmentStart.scrollY));
         const normalized = (segmentIndex + local) / (targets.length - 1);
-        setProgress(normalized);
+        setProgressTarget(normalized);
       });
     };
 
@@ -220,8 +259,33 @@ export default function FlowSidebar({ sections }: Props) {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(progressFrameRef.current);
+      progressFrameRef.current = 0;
     };
   }, [sections]);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const updateScale = () => {
+      const rect = svg.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return;
+      const scaleX = rect.width / viewBoxWidth;
+      const scaleY = rect.height / viewBoxHeight;
+      setXRadiusScale(scaleY / scaleX);
+    };
+
+    updateScale();
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(svg);
+    window.addEventListener("resize", updateScale);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateScale);
+    };
+  }, []);
 
   useEffect(() => {
     const activePath = activePathRef.current;
@@ -233,7 +297,7 @@ export default function FlowSidebar({ sections }: Props) {
 
   return (
     <aside className="flow-sidebar" aria-label="Section progress">
-      <svg className="flow-svg" viewBox={`${viewBoxLeft} 0 ${viewBoxWidth} ${viewBoxHeight}`} preserveAspectRatio="none" aria-hidden="true">
+      <svg ref={svgRef} className="flow-svg" viewBox={`${viewBoxLeft} 0 ${viewBoxWidth} ${viewBoxHeight}`} preserveAspectRatio="none" aria-hidden="true">
         <g transform={`translate(0 ${movingOffset})`}>
           {!reduced && <g className="flow-arrows">{arrowField}</g>}
           <path id={pathId} d={path} fill="none" stroke="var(--border)" strokeWidth="1.4" />
@@ -241,11 +305,11 @@ export default function FlowSidebar({ sections }: Props) {
           {sections.map((section, index) => {
             const point = pointAt(sections.length <= 1 ? 0 : index / (sections.length - 1));
             return (
-            <circle key={sections[index].id} cx={point.x} cy={point.y} r="2.4" fill={active === sections[index].id ? "var(--accent)" : "var(--border)"} />
+            <ellipse key={sections[index].id} cx={point.x} cy={point.y} rx={2.4 * xRadiusScale} ry="2.4" fill={active === sections[index].id ? "var(--accent)" : "var(--border)"} />
             );
           })}
-          <circle cx={(particlePoint ?? currentPoint).x} cy={(particlePoint ?? currentPoint).y} r="10" fill="none" stroke="var(--accent)" opacity="0.24" />
-          <circle cx={(particlePoint ?? currentPoint).x} cy={(particlePoint ?? currentPoint).y} r="5.2" fill="var(--accent)" />
+          <ellipse cx={(particlePoint ?? currentPoint).x} cy={(particlePoint ?? currentPoint).y} rx={10 * xRadiusScale} ry="10" fill="none" stroke="var(--accent)" opacity="0.24" />
+          <ellipse cx={(particlePoint ?? currentPoint).x} cy={(particlePoint ?? currentPoint).y} rx={5.2 * xRadiusScale} ry="5.2" fill="var(--accent)" />
         </g>
       </svg>
       <nav className="flow-labels">

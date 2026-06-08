@@ -559,8 +559,10 @@ const locations = [
   const canvas = denoise?.querySelector("canvas");
   const context = canvas?.getContext("2d");
   if (denoise && canvas && context && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const rect = denoise.getBoundingClientRect();
+    const aspect = rect.width > 0 ? Math.max(1, rect.height / rect.width) : 1;
     const width = 32;
-    const height = 32;
+    const height = Math.max(32, Math.round(width * aspect));
     const startedAt = performance.now();
     canvas.width = width;
     canvas.height = height;
