@@ -8,6 +8,7 @@ authors:
 venue: "International Conference on Learning Representations"
 venue_short: "ICLR 2026"
 year: 2026
+order: 1
 links:
   openreview: "https://openreview.net/forum?id=khBHJz2wcV"
   arxiv: "https://arxiv.org/abs/2508.09156"

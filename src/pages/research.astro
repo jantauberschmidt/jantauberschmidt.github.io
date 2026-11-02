@@ -4,9 +4,9 @@ import DenoiseHeading from "../components/motion/DenoiseHeading";
 
 const sections = [
   { id: "overview", label: "Overview" },
-  { id: "generative-models", label: "Generative Models" },
-  { id: "domain-informed-ai", label: "Domain-Informed AI" },
-  { id: "control", label: "Control" },
+  { id: "generative-modeling", label: "Generative Modeling" },
+  { id: "structure-aware-sciml", label: "Structure-Aware SciML" },
+  { id: "optimization-design", label: "Optimization & Design" },
   { id: "contact", label: "Collaboration/ Supervision" },
 ];
 ---
@@ -16,88 +16,96 @@ const sections = [
     <DenoiseHeading text="Research" as="h1" client:visible />
     <p class="section-eyebrow">Research vision</p>
     <p class="lead">
-      My research lies at the intersection of generative modeling, scientific machine learning, and control.
-      I am interested in models that learn from data while respecting structure known a priori, such as physical laws or geometric constraints.
-      The goal is to bridge data-driven learning and first-principles modeling:
-      expressive enough to represent uncertainty and complex dynamics, but structured enough to remain meaningful in scientific and physical contexts.
+      My research lies at the intersection of scientific machine learning, generative modeling, and optimization.
+      I am interested in developing methods that combine the flexibility of data-driven learning with the mathematical and physical structure of scientific problems.
     </p>
-    <p class="research-thesis">
-      Learning flexible models for scientific systems while preserving the structure that makes them meaningful.
+    <p class="lead">
+      My long-term vision is to move beyond modeling physical systems towards automated scientific discovery and engineering design.
+      By combining learned physical models, generative methods, and adaptive optimization, I want to develop systems that can explore complex design spaces and iteratively improve solutions through simulations and experimental feedback.
     </p>
 
     <p class="section-eyebrow">Main themes</p>
     <div class="theme-grid" aria-label="Research themes">
-      <a class="theme-link-card" href="#generative-models">
+      <a class="theme-link-card" href="#generative-modeling">
         <h2>Generative Modeling</h2>
-        <p>Flow matching or diffusion models for scientific settings.</p>
+        <p>Flow matching and diffusion models for physical systems, constraints, and inverse problems.</p>
       </a>
-      <a class="theme-link-card" href="#domain-informed-ai">
-        <h2>Domain-Informed AI</h2>
-        <p>Physical laws, constraints, structure, prior knowledge.</p>
+      <a class="theme-link-card" href="#structure-aware-sciml">
+        <h2>Structure-Aware SciML</h2>
+        <p>Physics-informed learning, PDEs, operator learning, and surrogate modeling.</p>
       </a>
-      <a class="theme-link-card" href="#control">
-        <h2>Control</h2>
-        <p>Dynamics, feedback, reinforcement learning, decision-making.</p>
+      <a class="theme-link-card" href="#optimization-design">
+        <h2>Optimization & Design</h2>
+        <p>Control, closed-loop optimization, and automated engineering design.</p>
       </a>
     </div>
   </section>
 
-  <section class="page-section research-theme" id="generative-models">
+  <section class="page-section research-theme" id="generative-modeling">
     <div class="theme-card">
       <p class="section-eyebrow theme-number">Theme 01</p>
-      <DenoiseHeading text="Generative Modeling for Scientific Data" client:visible />
+      <DenoiseHeading text="Generative Modeling for Physical Systems" client:visible />
       <p>
-        Generative models are useful in scientific problems because they can represent uncertainty over structured objects: fields, trajectories, PDE solutions, and other states constrained by underlying mechanisms. I am particularly interested in flow matching or diffusion models in this context.
+        Generative models offer a flexible way to represent distributions over complex objects, including physical fields, trajectories, and solutions to partial differential equations. Unlike deterministic prediction, they can capture multiple plausible outcomes and provide a natural foundation for inference under incomplete information.
       </p>
       <p>
-        In many applications, the goal is not generation for its own sake, but inference under incomplete information. A learned distribution can encode which states are plausible and can then be combined with observations, constraints, or objectives to solve inverse problems, guide optimization, or quantify uncertainty.
+        My research investigates how generative models can incorporate physical constraints, learned geometric structure, and prior knowledge. This includes physics-constrained fine-tuning of flow-matching models for generation and inverse problems, as well as learning continuous-time generative dynamics that follow the geometry of observed data.
+      </p>
+      <p>
+        A central question is how to combine the expressivity of learned distributions with the structure and constraints of scientific problems, enabling physically meaningful generation without unnecessarily restricting the range of plausible solutions.
       </p>
       <div class="keyword-row" aria-label="Key ideas for generative modeling">
-        <span class="keyword-pill">Flow matching</span>
-        <span class="keyword-pill">Diffusion models</span>
-        <span class="keyword-pill">Generative priors</span>
-        <span class="keyword-pill">Uncertainty</span>
-        <span class="keyword-pill">Inverse problems</span>
+        <span class="keyword-pill">Flow Matching</span>
+        <span class="keyword-pill">Diffusion Models</span>
+        <span class="keyword-pill">Generative Dynamics</span>
+        <span class="keyword-pill">Inverse Problems</span>
+        <span class="keyword-pill">Physical Constraints</span>
       </div>
     </div>
   </section>
 
-  <section class="page-section research-theme" id="domain-informed-ai">
+  <section class="page-section research-theme" id="structure-aware-sciml">
     <div class="theme-card">
       <p class="section-eyebrow theme-number">Theme 02</p>
-      <DenoiseHeading text="Domain-Informed and Physics-Informed AI" client:visible />
+      <DenoiseHeading text="Structure-Aware Scientific Machine Learning" client:visible />
         <p>
-          Scientific learning problems usually come with structure that should not be ignored. I am interested in methods that incorporate such prior knowledge into machine learning models, including physical laws, symmetries, boundary conditions, constraints, expert knowledge, or qualitative information about admissible solutions.
+          Scientific systems often come with valuable mathematical knowledge, such as governing equations, geometric relationships, and known solution structures. Incorporating this knowledge into machine learning can improve data efficiency, generalization, and computational performance.
         </p>
         <p>
-          This is the role in which I view physics-informed AI: not as a single technique, but as part of a broader question of how domain knowledge should shape learning. The challenge is to keep models flexible and data-adaptive while making their behavior consistent with the structure of the problem, especially when data are limited, simulations are imperfect, or extrapolation matters.
+          I am interested in developing models that exploit this structure rather than learning everything from data alone. My work includes robust training methods for physics-informed neural networks and efficient learning of PDE solution operators. In particular, Green's Observation Operators exploit the structure of physical systems to predict responses on lower-dimensional observation domains without repeatedly solving the full underlying PDE.
         </p>
-      <div class="keyword-row" aria-label="Key ideas for domain-informed AI">
-        <span class="keyword-pill">Physical constraints</span>
-        <span class="keyword-pill">Prior knowledge</span>
-        <span class="keyword-pill">Hybrid modeling</span>
-        <span class="keyword-pill">Residuals</span>
-        <span class="keyword-pill">Structure</span>
+        <p>
+          More broadly, I study how analytical modeling and machine learning can complement one another to build efficient, reliable models for scientific applications.
+        </p>
+      <div class="keyword-row" aria-label="Key ideas for structure-aware scientific machine learning">
+        <span class="keyword-pill">Physics-Informed Learning</span>
+        <span class="keyword-pill">PDEs</span>
+        <span class="keyword-pill">Operator Learning</span>
+        <span class="keyword-pill">Surrogate Modeling</span>
+        <span class="keyword-pill">Scientific Computing</span>
       </div>
     </div>
   </section>
 
-  <section class="page-section research-theme" id="control">
+  <section class="page-section research-theme" id="optimization-design">
     <div class="theme-card">
       <p class="section-eyebrow theme-number">Theme 03</p>
-      <DenoiseHeading text="Control and Decision-Making in Physical Systems" client:visible />
+      <DenoiseHeading text="Control, Optimization, and Automated Design" client:visible />
         <p>
-          Control problems make the consequences of learning explicit: predictions become actions, actions change the state, and errors can accumulate through feedback. This makes physical control a natural setting for studying how machine learning interacts with dynamics, constraints, uncertainty, and optimization objectives.
+          Ultimately, I am interested in machine learning methods that go beyond representing physical systems and help us make decisions about them. My earlier work in reinforcement learning explored this perspective in high-performance control, combining performance optimization with constraints derived from expert behavior.
         </p>
         <p>
-          My Master’s thesis at Porsche Motorsport explored this perspective through reinforcement learning for race driver modeling. I remain interested in control both as an application area and as a conceptual lens for learned models that should not only describe data, but also support decisions in evolving systems.
+          Building on this background, my longer-term research direction is automated scientific and engineering design. Here, generative models can represent and propose plausible candidates in complex, high-dimensional design spaces, while optimization methods guide exploration towards high-performing solutions.
         </p>
-      <div class="keyword-row" aria-label="Key ideas for control">
-        <span class="keyword-pill">Reinforcement learning</span>
-        <span class="keyword-pill">Feedback systems</span>
-        <span class="keyword-pill">Dynamics</span>
-        <span class="keyword-pill">Closed-loop behavior</span>
-        <span class="keyword-pill">Optimization</span>
+        <p>
+          I am particularly interested in closed-loop, multi-fidelity optimization, where learned physical surrogate models, numerical simulations, and real-world experiments provide complementary sources of feedback. An important research challenge is how generative models and adaptive optimization methods can interact to efficiently discover diverse, feasible, and high-performing designs.
+        </p>
+      <div class="keyword-row" aria-label="Key ideas for optimization and design">
+        <span class="keyword-pill">Generative Optimization</span>
+        <span class="keyword-pill">Bayesian Optimization</span>
+        <span class="keyword-pill">Multi-Fidelity Learning</span>
+        <span class="keyword-pill">Reinforcement Learning</span>
+        <span class="keyword-pill">Automated Design</span>
       </div>
     </div>
   </section>

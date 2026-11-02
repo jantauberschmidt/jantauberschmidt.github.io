@@ -8,6 +8,7 @@ const publications = defineCollection({
     venue: z.string(),
     venue_short: z.string(),
     year: z.number(),
+    order: z.number().optional(),
     links: z.record(z.string(), z.string()).optional(),
     bibtex: z.string().optional(),
   }),

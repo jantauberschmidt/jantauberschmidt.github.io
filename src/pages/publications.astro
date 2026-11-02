@@ -7,6 +7,9 @@ import { getCollection } from "astro:content";
 
 const publications = (await getCollection("publications")).sort((a, b) => {
   if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  const orderA = a.data.order ?? 99;
+  const orderB = b.data.order ?? 99;
+  if (orderA !== orderB) return orderA - orderB;
   return a.data.title.localeCompare(b.data.title);
 });
 const groupedPublications = publications.reduce(

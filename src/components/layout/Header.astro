@@ -13,7 +13,7 @@ const path = Astro.url.pathname;
   <div class="site-shell header-inner">
 
     <a class="brand" href="/">
-      <img class="brand-avatar" src="/images/PortraitJanTauberschmidt.JPG" alt="" aria-hidden="true" />
+      {path !== "/" && <img class="brand-avatar" src="/images/PortraitJanTauberschmidt.JPG" alt="" aria-hidden="true" />}
       <span>Jan Tauberschmidt</span>
     </a>
     <nav aria-label="Primary navigation">

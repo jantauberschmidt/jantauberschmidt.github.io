@@ -9,6 +9,7 @@ authors:
 venue: "arXiv"
 venue_short: "arXiv"
 year: 2026
+order: 5
 links:
   arxiv: "https://arxiv.org/abs/2604.03023"
   doi: "https://doi.org/10.48550/arXiv.2604.03023"

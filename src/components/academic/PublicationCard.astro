@@ -17,6 +17,7 @@ const linkLabels: Record<string, string> = {
   scholar: "Scholar",
   doi: "DOI",
   poster: "Poster",
+  pmlr: "PMLR",
 };
 
 const isExternal = (href: string) => href.startsWith("http");
@@ -34,11 +35,16 @@ const normalizedBibtex = bibtex
   : undefined;
 ---
 
-<article class="publication-card">
-  <p class="venue">{venue}</p>
-  <h3>{title}</h3>
-  <p class="authors">{authors.join(", ")}</p>
-  {description && <p>{description}</p>}
+<details class="publication-card">
+  <summary class="card-summary">
+    <div class="card-head">
+      <p class="venue">{venue}</p>
+      <h3>{title}</h3>
+      <p class="authors">{authors.join(", ")}</p>
+    </div>
+    <span class="expand-indicator" aria-hidden="true"></span>
+  </summary>
+  {description && <p class="description">{description}</p>}
   <div class="card-links">
     {Object.entries(links).map(([key, href]) => (
       <a class="card-link" href={href} target={isExternal(href) ? "_blank" : undefined} rel={isExternal(href) ? "noreferrer" : undefined}>
@@ -52,7 +58,7 @@ const normalizedBibtex = bibtex
       </details>
     )}
   </div>
-</article>
+</details>
 
 <style>
   .publication-card {
@@ -60,6 +66,72 @@ const normalizedBibtex = bibtex
     border: 1px solid rgb(49 95 157 / 0.22);
     border-radius: var(--radius);
     background: linear-gradient(180deg, var(--surface), var(--accent-soft));
+  }
+
+  .card-summary {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .card-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .card-head {
+    min-width: 0;
+  }
+
+  .card-summary h3 {
+    margin: 0;
+  }
+
+  .card-summary:hover h3 {
+    color: var(--accent);
+  }
+
+  .expand-indicator {
+    position: relative;
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.15rem;
+    border: 1px solid rgb(49 95 157 / 0.35);
+    border-radius: 999px;
+    color: var(--accent);
+    transition: transform 200ms ease, background 160ms ease;
+  }
+
+  .expand-indicator::before,
+  .expand-indicator::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.65rem;
+    height: 1.5px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+  }
+
+  .expand-indicator::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    transition: transform 200ms ease;
+  }
+
+  .publication-card[open] .expand-indicator::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .publication-card[open] .expand-indicator {
+    background: var(--accent-soft);
+  }
+
+  .description {
+    margin-top: 0.9rem;
   }
 
   .venue {
